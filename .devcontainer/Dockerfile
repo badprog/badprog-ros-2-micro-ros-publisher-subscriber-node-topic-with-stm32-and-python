@@ -50,6 +50,6 @@ RUN /home/$USERNAME/.platformio/penv/bin/pip install --upgrade pip && \
 # 7. PATH and ROS config in .bashrc
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && \
-    echo 'export LIBCLANG_PATH=/usr/lib/llvm-14/lib' >> ~/.bashrc \
+    echo 'export LIBCLANG_PATH=/usr/lib/llvm-14/lib' >> ~/.bashrc && \
     echo "alias l='ls -la'" >> ~/.bashrc && \
     echo "alias me='echo ${PROJECT_NAME}'" >> ~/.bashrc
