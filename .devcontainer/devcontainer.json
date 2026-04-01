@@ -1,0 +1,47 @@
+{
+  "name": "${localWorkspaceFolderBasename}",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "PROJECT_NAME": "${localWorkspaceFolderBasename}"
+    },
+    "context": "."
+  },
+  "runArgs": [
+    "--net=host",
+    "-e",
+    "DISPLAY=${localEnv:DISPLAY}",
+    "-v",
+    "/tmp/.X11-unix:/tmp/.X11-unix",
+    "--privileged",
+    "--device=/dev/ttyACM0:/dev/ttyACM0",
+    "-v",
+    "/dev:/dev"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "marus25.cortex-debug",
+        "platformio.platformio-ide",
+        "Ranch-Hand-Robotics.rde-ros-2",
+        "GitHub.copilot-chat"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "cmake.configureOnOpen": true
+      }
+    }
+  },
+  "postStartCommand": [
+    "/bin/sh",
+    "-c",
+    // "sudo chown -R ubuntu:ubuntu /workspaces/${localWorkspaceFolderBasename}/"
+    // "sudo chmod -R 777 /dev/bus/usb" --> Full access right on the USB bus.
+    // "sudo chmod 666 /dev/ttyACM*" --> Access right to Reading/Writing on serial port (/dev/ttyACM0)
+    // || true is used to prevent the container to fail if the board isn't connected yet
+    "sudo chmod -R 777 /dev/bus/usb && sudo chmod 666 /dev/ttyACM* || true && sudo chown -R ubuntu:ubuntu /workspaces/${localWorkspaceFolderBasename}/"
+  ]
+}
